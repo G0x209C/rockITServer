@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/G0x209C/rockITServer/issues"
   },
-  "homepage": "https://github.com/G0x209C/rockITServer#readme"
+  "homepage": "https://github.com/G0x209C/rockITServer#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.3.0"
+  }
 }
