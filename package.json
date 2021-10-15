@@ -1,0 +1,27 @@
+{
+  "name": "rockitapiserver",
+  "version": "0.0.1",
+  "description": "API server for the ROCKIT Uitdaging project",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G0x209C/rockITServer.git"
+  },
+  "keywords": [
+    "api",
+    "server",
+    "backend",
+    "rockit",
+    "uitdaging",
+    "gamebox"
+  ],
+  "author": "G0x209C",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/G0x209C/rockITServer/issues"
+  },
+  "homepage": "https://github.com/G0x209C/rockITServer#readme"
+}
