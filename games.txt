@@ -1,0 +1,36 @@
+Spel 1: telepathie 
+- een aantal voorwerpen zijn gedefinieerd
+- een aantal vragen zijn gedefinieerd
+- goede vragen bij voorwerp dan ja anders nee
+- als iedereen vraag heeft gesteld raden van het voorwerp
+- goed → punten
+
+Spel 2: maak de zin af (ken je medespelers)
+- een aantal zinnen zijn gedefinieerd
+- iedereen maakt een zin af
+- iedereen moet raden wie welke zin heeft afgemaakt
+- elk goed antwoord → punten
+
+Spel 3: wat is dit (ken je medespelers)
+- een aantal afbeeldingen zijn gedefinieerd
+- iedereen vertelt wat hij denkt dat het is
+- iedereen moet raden wie welke antwoord gaf
+- elk goed antwoord → punten
+
+Spel 4: wie ben ik (ken je medespelers)
+- een aantal afbeelding zijn gedefinieerd
+- iedereen kiest een afbeelding voor zichzelf
+- iedereen raad wie welke afbeelding heeft gekozen
+- elk goed antwoord → punten
+
+Spel 5 : triviant (algemene kennis)
+- een aantal vragen zijn gedefinieerd
+- een aantal antwoorden zijn gedefinieerd
+- iederen geeft antwoord
+- goed → punten
+
+Spel 6: goed of fout (snelheid)
+- een aantal vragen zijn gedefinieerd
+- een aantal antwoorden zijn gedefinieerd
+- iedereen geeft antwoord goed of fout
+- goed → punten
