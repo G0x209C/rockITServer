@@ -1,0 +1,18 @@
+# TODO now
+
+[X] FIGURING OUT MODEL FOR HOST - SERVER relation
+
+HOST CHAT FUNCTIONALITY
+
+# PLAN LATER
+
+
+
+
+
+
+# NOTES
+
+
+
+# 
