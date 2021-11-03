@@ -12,7 +12,7 @@ module.exports = (io,socket)=>
     socket.on('messageSend', data=>
     {
         // emit message to the client's connected room:
-        io.to(socket.GameClient.room).emit('chatMessageReceive', {
+        socket.to(socket.GameClient.room).emit('chatMessageReceive', {
             name: data.name,
             message: data.message
         });
