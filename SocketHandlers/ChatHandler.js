@@ -1,17 +1,20 @@
 /**
  * @author G0x209C
- * @param io
+ * @params io, client
  * @description Chat handlers handles chat operations
  *
  * This component acts like a Controller:
  * It is added to the socket connection and handles the correct function calls
  * needed for the socket's event.
  */
-module.exports = (io, client)=>
+module.exports = (io,socket)=>
 {
-    io.of('/chat').on('connection', socket=>
+    socket.on('messageSend', data=>
     {
-        client.chatSocket = socket;
-
+        // emit message to the client's connected room:
+        io.to(socket.GameClient.room).emit('chatMessageReceive', {
+            name: data.name,
+            message: data.message
+        });
     });
 }
