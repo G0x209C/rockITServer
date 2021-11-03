@@ -1,7 +1,7 @@
 const path =require('path');
 
 module.exports = {
-    outputDir: path.resolve('/home/gc/dev/rockITServer/public'),
+    outputDir: path.resolve('../public'),
     devServer:
         {
             proxy:
