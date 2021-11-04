@@ -20,7 +20,7 @@ class Client
     {
         this.room = room;
         // TODO: add aditional checks before adding user to room
-        this.socket.join(room);
+        //this.socket.join(room);
     }
 
 

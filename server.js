@@ -20,6 +20,7 @@ const history =require('connect-history-api-fallback');
 // handlers
 const PlayerHandler = require('./SocketHandlers/PlayerHandler');
 const ChatHandler = require('./SocketHandlers/ChatHandler');
+const GameHandler = require('./SocketHandlers/GameHandler');
 
 // set up static directory
 app.use(express.static(path.join(__dirname, './public/')));
@@ -40,11 +41,6 @@ class Main
     static clients = [];
     static clients_uuid = [];
 
-    registerHandlers(socket)
-    {
-        ChatHandler(io,socket);
-        PlayerHandler(io,socket);
-    }
 
 
     // starts server. using port it is possible to run multiple servers on different ports, with shared Game Rooms (static indexes)
@@ -64,7 +60,7 @@ const ServerInstance = new Main();
 
 io.on('connection',socket=>
 {
-    console.log(`Socket connected: ${socket.id}`);
+    console.log(`Socket connected: ${socket.id}: ${socket.client}`);
 
     // first check if client has a previous UUID: TODO: implement on client side
     socket.on('prevConnectionUUID', data=>
@@ -82,14 +78,18 @@ io.on('connection',socket=>
         }
     });
 
-    // call handlers passing in the instance of io;
-    ServerInstance.registerHandlers(socket);
+
 
     // add client object to socket FIXME: add way to reassign the same object to new socket connection from same client (uuid): checking for existing clients and existing connection.
     socket.GameClient = new GameClient(io,socket);
     socket.emit('initClient', {
         client: socket.GameClient.returnDatamodel() //send over client info
     });
+
+    // call handlers passing in the instance of io;
+    ChatHandler(io,socket);
+    PlayerHandler(io,socket);
+    GameHandler(io,socket);
 
     socket.on('disconnect',(reason)=>
     {

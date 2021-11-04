@@ -12,18 +12,18 @@ module.exports = (io,socket)=>
 {
     socket.on('gameJoin', data=>{
         // TODO: add join room functionality
+        console.log(data);
         try{
-            socket.join(data.room)
-            socket.GameClient.room = data.room;
+            socket.join(data.room);
+            socket.GameClient.setRoom(data.room);
             socket.emit('gameJoinSuccess',{
-                client: socket.GameClient, //TODO: add player info and stuff.
+                GameClient: socket.GameClient, //TODO: add player info and stuff.
             });
         }
         catch(err)
         {
-            console.log(`A terrible error happened in joining the room ${data.room} for socket ${socket.id}`);
+            console.log(`A terrible error happened in joining the room ${data.room} for socket ${socket.id}\nError: ${err.name} : ${err.message}`);
         }
-
 
     });
 }
