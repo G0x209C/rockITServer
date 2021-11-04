@@ -1,72 +1,72 @@
 <template>
   <Nav></Nav>
-  <div>
-    <form>
-      <label for="start.name">Naam</label>
-      <input type="text" id="start.name"><br>
-      <label for="start.room">Gamecode</label>
-      <input type="text" id="start.room"><br>
-      <input type="submit" id="start.submit" @click="startGame">
-    </form>
+  <div class="container">
+    <label for="player.name">Naam</label>
+    <input type="text" v-model="player.name" id="player.name"><br>
+    <label for="player.room">Gamecode</label>
+    <input type="text" v-model="player.room" id="player.room"><br>
+    <button type="submit" id="start.submit" @click="startGame">Start game</button>
   </div>
 </template>
 
 <script>
 import Nav from '../components/Nav.vue';
 
-  export default
-  {
-      components:{
-        Nav
-      },
-      sockets:{
-        gameJoinSuccess(data)
-        {
-          console.log(data);
-        },
-        initClient(data)
-        {
-          console.log(data);
-          window.test = data;
-        }
-      },
-      data()
+export default {
+  components: {
+    Nav
+  },
+  sockets: {
+    initClient(data) {
+      console.log(data);
+    },
+    gameJoinSuccess(data) {
+      // TODO: redirect user to game page. (Not implementing gamevote, yet.)
+      console.log(data);
+      this.$router.push({name: 'Game', params: {player: data.GameClient}});
+    }
+  },
+  methods:
       {
-        return {
-          id: null,
-          name: null,
-          room: null
+        startGame() {
+          this.$socket.client.emit('gameJoin', {name: this.player.name, room: this.player.room});
         }
+      },
+  data() {
+    return {
+      player: {
+        uuid: null,
+        name: null,
+        room: null,
+        is_host: null,
+        score: null,
       }
+    }
   }
+}
 </script>
 
 <style scoped>
-@media(max-width: 960px)
-{
-  div
-  {
-    width:80%;
+@media (max-width: 960px) {
+  div {
+    width: 80%;
   }
 }
-@media(min-width: 961px)
-{
-  div
-  {
-    width:30%;
+
+@media (min-width: 961px) {
+  div {
+    width: 30%;
 
   }
 }
-div
-{
+
+div {
   margin-left: auto;
-  margin-right:auto;
-}
-form
-{
-  display:grid;
+  margin-right: auto;
 }
 
-
+div.container {
+  display: grid;
+}
 
 </style>

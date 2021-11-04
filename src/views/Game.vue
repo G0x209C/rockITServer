@@ -13,9 +13,9 @@ import Game from "../components/Game";
 
 export default
 {
-  props:[
-      'player'
-  ],
+  props: {
+    player: Object
+  },
   sockets:{
 
   },
