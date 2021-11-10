@@ -1,5 +1,6 @@
 import { Action, api, chatRoom, task } from "actionhero";
-const player = require("../Models/Player");
+import {mongo} from "mongoose";
+const Player = require("../Models/Player");
 const message = require("../Models/Message");
 
 export class StartGame extends Action {
@@ -9,19 +10,26 @@ export class StartGame extends Action {
     this.description = "Starting a game";
     this.outputExample = {};
     this.inputs = {
-      connectionID: { required: true },
+      player_id: { required: true },
       name: { required: true },
       room: { required: false },
     };
   }
 
-  async createPlayer(connectionID, name, room) {
-    let Player = new player({
-      connectionID: connectionID,
+  async createPlayer(playerID, name, room) {
+    let Player = new Player({
+      player_id: playerID,
       name: name,
       room: room,
     });
     Player.save();
+    return {
+      player:Player.find({player_id:playerID}).lean().exec((err,arr)=>
+      {
+        if(err) throw err;
+        return arr;
+      })
+    };
   }
 
   async createOrJoinGame(connectionID, room) {
@@ -47,12 +55,16 @@ export class StartGame extends Action {
     // your logic here
     let { name, room, connectionID } = data.params;
     try {
-      await this.createOrJoinGame(connectionID, room);
-      await this.createPlayer(connectionID, name, room);
+      await this.createOrJoinGame(connectionID, room); // await the creation of a room
+      let p = await this.createPlayer(connectionID, name, room); // create user and return it to client
       data.response.ok = true;
+      return {player:p.player}
     } catch (err) {
       data.response.ok = false;
       data.response.errMessage = err.message;
+      return {
+        player:null
+      }
     }
   }
 }
@@ -69,5 +81,9 @@ export class SelectGame extends Action {
     };
   }
 
-  async run(data) {}
+  async run(data) {
+    let player = Player.find({connectionID:data.params.connectionID})
+    if(Player.find().lean()){}
+    data.response.ok=true;
+  }
 }
