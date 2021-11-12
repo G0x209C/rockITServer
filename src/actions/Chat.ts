@@ -16,6 +16,6 @@ export class SendMessage extends Action {
 
   async run(data) {
     // your logic here
-    let player = Player.find({connectionID  });
+    let player = Player.find({connectionID:data.params.connectionID });
   }
 }

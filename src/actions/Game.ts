@@ -17,7 +17,7 @@ export class StartGame extends Action {
   }
 
   async createPlayer(playerID, name, room) {
-    let Player = new Player({
+    let player = new Player({
       player_id: playerID,
       name: name,
       room: room,
