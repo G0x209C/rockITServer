@@ -5,18 +5,25 @@ export default class extends React.Component
     constructor(props)
     {
         super(props);
+        console.log(props.client);
+        this.client = props.client;
 
     }
 
-    componentDidMount()
+    connectionStuff()
     {
         // do your socket operations here.
-        this.props.client.on('heya', (data)=>{});
-        this.props.client.action('game:start', {
+        this.client.on('heya', (data)=>{});
+        this.client.action('game:start', {
             connectionID:this.props.client.connectionID,
             name: "Henk",
             room: "AXCVZ"
         });
+    }
+
+    componentDidMount()
+    {
+        this.connectionStuff()
     }
 
 
