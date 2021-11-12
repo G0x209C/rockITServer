@@ -1,10 +1,10 @@
 import { model, Schema } from "mongoose";
 
 const playerScheme = new Schema({
-  player_id: {
-    type:Number,
-    unique:true,
-    required:true,
+  user_id: {
+    type: Number,
+    unique: true,
+    required: true,
   },
   name: {
     type: String,

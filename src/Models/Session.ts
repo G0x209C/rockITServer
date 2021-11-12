@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 
-
 const SessionScheme = new Schema({
   id: {
     type: String,
