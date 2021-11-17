@@ -1,7 +1,7 @@
 import { Action, chatRoom } from "actionhero";
 const Player = require("../Models/Player");
 const Message = require("../Models/Message");
-import { Model } from "mongoose";
+
 
 export class SendMessage extends Action {
   constructor() {
@@ -38,9 +38,27 @@ export class GetMessage extends Action {
     this.name = "message:get";
     this.description = "Gets current messages and returns them";
     this.outputExample = {};
+    this.inputs={
+       userID:{required:true},
+    }
   }
 
   async run(data) {
     console.log(data);
+    try{
+      let playerRoom = await Player.find({ user_id:data.params.userID }).select('room');
+      let messages= await Message.find({room_id:playerRoom});
+      return {
+        success:true,
+        messages: messages,
+        error:null,
+      }
+    }catch(e){
+      return{success:false,
+        messages:null,
+        error:e.error
+      }
+    }
+
   }
 }

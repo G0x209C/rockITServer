@@ -84,7 +84,7 @@ export class SelectGame extends Action {
 
   async run(data) {
     let player = Player.find({ connectionID: data.params.connectionID });
-    if (Player.find().lean()) {
+    if (player.isHost) {
     }
     data.response.ok = true;
   }

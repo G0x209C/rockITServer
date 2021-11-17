@@ -14,6 +14,11 @@ const playerScheme = new Schema({
     type: String,
     required: true,
   },
+  is_host: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   score: {
     type: Number,
     required: false,
