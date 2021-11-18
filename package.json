@@ -8,14 +8,15 @@
   },
   "dependencies": {
     "actionhero": "27.3.0",
-    "ws": "latest",
     "ioredis": "latest",
     "ioredis-mock": "latest",
-    "winston": "latest"
+    "mongoose": "^6.0.13",
+    "winston": "latest",
+    "ws": "latest"
   },
   "devDependencies": {
-    "@types/node": "latest",
     "@types/jest": "latest",
+    "@types/node": "latest",
     "jest": "latest",
     "prettier": "latest",
     "ts-jest": "latest",
