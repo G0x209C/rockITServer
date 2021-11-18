@@ -1,0 +1,19 @@
+{
+  "name": "rockitservercore",
+  "version": "1.0.0",
+  "description": "API Server for Uitdaging",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "rockITServer"
+  },
+  "keywords": [
+    "API",
+    "backend"
+  ],
+  "author": "G0x209C",
+  "license": "MIT"
+}
