@@ -5,6 +5,7 @@ export const DEFAULT = {
         { path: "/status", action: "status" },
         { path: "/swagger", action: "swagger" },
         { path: "/createChatRoom", action: "createChatRoom" },
+        { path: "/startGame", action: "game:start" }
       ],
 
       /* ---------------------
