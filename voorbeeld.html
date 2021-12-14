@@ -1,0 +1,85 @@
+<html>
+<head>
+	<title>wachten</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type='text/javascript'>
+	var timerID = null;
+	var timerRunning = false;
+	var timerCount = 0;
+	var timerID2 = null;
+	var timerRunning2 = false;
+	var timerCount2 = 0;
+	function nextLevel() {
+		location.href="punten.html";
+	}
+	function answer() {
+		// send level answer
+		stopClock();
+		location.href="antwoord.php?antwoord="+$('#inval').val();
+	}
+	
+	function startClock2(fie,intv) {
+		stopClock2();
+		timerCount2 = 0;
+		timerId2 = setInterval(fie, intv);
+		timerRunning2 = true;
+	}
+	function stopClock2() {
+		if (timerRunning2) {
+			clearInterval(timerID2);
+			timerRunning2 = false;
+		}
+	}
+	function getChat() {
+		// get last chats
+		$.ajax({
+		url: 'php/getChat.php',
+		data: {code : '1234' },
+		success: function (s) {
+			$('#chatIn').val(s);
+		}
+		});
+	}
+	function setChat() {
+		// send chat input
+		$.ajax({
+		url: 'php/setChat.php',
+		data: {code : '1234',
+			   name : 'myname',
+			   msg  : $('#chat').val()
+		},
+		success: function (s) {
+			$('#chatIn').val(s);	// show chats
+			$('#chat').val('');		// empty input field
+		}
+		});
+	}
+	function startClock(fie,intv) {
+		stopClock();
+		timerCount = 0;
+		timerId = setInterval(fie, intv);
+		timerRunning = true;
+	}
+	function stopClock() {
+		if (timerRunning) {
+			clearInterval(timerID);
+			timerRunning = false;
+		}
+	}
+	$(document).ready(function(){
+		//startClock(nextLevel, 30000); // stop game-level within 30 seconds
+		startClock2(getChat, 1000);  // refresh chats every second
+	});
+	</script>
+</head>
+<body>
+	<img src='uitdaging.png' style='width:20%; height:10%' ><br>
+	<span style='font-family:"Segoe script"; font-size:30; color:#FF0080'>Dit is een voorbeeld</span><br>
+	<span style='font-family:"Segoe script"; font-size:30;  color:#0000E0'>Script type: </span> 
+	<input type='text' id='inval' name='inval'><br>
+	<input type='button' value='GO' onclick='answer()' style='font-family:"Segoe script"; font-size:30; color:#FF00FF'; cursor:pointer;><br>
+	<textarea id='chatIn' rows='4' cols='50' style='background-color:#FF8080; '></textarea><br>
+	<input type='text' id='chat' size='48'><input type='button' value='send' onclick='setChat()'>
+
+</body>
+</html>

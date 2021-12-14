@@ -1,0 +1,168 @@
+<html>
+<title>telepathie</title>
+	<script type="text/javascript" src="../js/jquery.js"></script>
+	<script type='text/javascript'>
+	var timerID = null;
+	var timerRunning = false;
+	var timerCount = 0;
+	var timerID2 = null;
+	var timerRunning2 = false;
+	var timerCount2 = 0;
+	var timerID3 = null;
+	var timerRunning3 = false;
+	var timerCount3 = 0;
+	var code = "";
+	var name = "";
+	var first = true
+	function playNow(screen) {
+		alert("v");
+		$.ajax({		
+			url: 'php/isHost.php',
+			data: { code : code,
+					name : name
+				  },
+			success: function (s) {
+				if (s == "true") {
+					$.ajax({
+						url: 'php/playNow.php',
+						data: { code : code,
+								screen : screen
+							  },
+						success: function (s) {
+							if (!s.undefined &&s != "") {
+								//location.href = s;
+							}
+						}
+					});
+				}
+			}
+		});
+	}
+
+	function startClock3(fie,intv) {
+		stopClock3();
+		timerCount3 = 0;
+		timerId3 = setInterval(fie, intv);
+		timerRunning3 = true;
+	}
+	function stopClock3() {
+		if (timerRunning3) {
+			clearInterval(timerID3);
+			timerRunning3 = false;
+		}
+	}
+	function switchNow() {
+		// change screen
+		alert("a");
+		$.ajax({
+			url: '../php/switchNow.php',
+			data: { code : code,
+					name : name
+				  },
+			success: function (s) {
+				if (s!==undefined && s != "") {
+					location.href = s;
+				}
+			}
+		});
+	}
+	function startClock(fie,intv) {
+		stopClock();
+		timerCount = 0;
+		timerId = setInterval(fie, intv);
+		timerRunning = true;
+	}
+	function stopClock() {
+		if (timerRunning) {
+			clearInterval(timerID);
+			timerRunning = false;
+		}
+	}
+	function startClock2(fie,intv) {
+		stopClock2();
+		timerCount2 = 0;
+		timerId2 = setInterval(fie, intv);
+		timerRunning2 = true;
+	}
+	function stopClock2() {
+		if (timerRunning2) {
+			clearInterval(timerID2);
+			timerRunning2 = false;
+		}
+	}
+	function getChat() {
+		// get last chats
+		$.ajax({
+			url: '../php/getChat.php',
+			data: {code : code },
+			success: function (s) {
+				$('#chatIn').val(s);
+			}
+		});
+	}
+	function setChat() {
+		// send chat input
+		$.ajax({
+			url: '../php/setChat.php',
+			data: {code : code,
+				   name : name,
+				   msg  : $('#chat').val()
+			},
+			success: function (s) {
+				$('#chatIn').val(s);	// show chats
+				$('#chat').val('');		// empty input field
+			}
+		});
+	}
+	$(document).ready(function(){
+		prm = window.location.search; 
+		pos = prm.indexOf("code="); 
+		code = "";
+		if (pos > -1) {
+			code = prm.substr(pos+5,5); 
+		}
+		pos = prm.indexOf("name="); 
+		name = "";
+		if (pos > -1) {
+			name = prm.substr(pos+5); 
+		}
+		startClock3(playNow("tel2"),10000); // if host then screen will be set to triv2
+		startClock(switchNow, 30000);  // switch screen
+		startClock2(getChat, 1000);   // refresh chats every second
+	});
+</script>
+	
+<style>
+	.msg {
+		  border-top-style: hidden;
+		  border-right-style: hidden;
+		  border-left-style: hidden;
+		  border-bottom-style: hidden;
+		  background-color: #eee;
+		  font-size:20; color:#FF0000;
+		  font-family:"Segoe script";
+	}
+
+	.cred {font-family:"Segoe script"; font-size:30; color:#FF0080;}
+	.cblue {font-family:"Segoe script"; font-size:20; color:#8000FF;}
+	*:focus {outline: none;}
+</style>
+<head>
+</head>
+<body>
+	<div style='position:relative; margin-left:30%'>
+		<img src='../uitdaging.png' style='width:20%; height:10%' ><br>
+	</div>
+	<div style='float:left; position:relative; margin-left:20%'>
+	<img src='../img/telepathie.png' style='height:10%;'><span class='cred'>telepatie</span><br>
+	<span class='cred'>Alle spelers kiezen een afbeelding die het beste bij hun past.</span><br>
+	<span class='cred'>Daarna raden alle spelers wie welke afbeelding heeft gekozen.</span><br>
+	<span class='cred'>Per goed antwoord krijg je een punt. De speler met de meeste punten heeft gewonnen</span><br>
+	
+	
+	<input type='text' class='msg' readonly id='msg' size='60'><br>
+	<textarea id='chatIn' rows='4' cols='70' style='background-color:#FF8080; '></textarea><br>
+	<input type='text' id='chat' class='cred' size='60' ><input type='button' value='chat' onclick='setChat()' class='cred'><br>
+	</div>
+</body>
+</html>

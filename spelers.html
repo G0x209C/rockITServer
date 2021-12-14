@@ -1,0 +1,209 @@
+<html>
+<head>
+	<title>Uitdaging - familie spellen</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type='text/javascript'>
+	var timerID = null;
+	var timerRunning = false;
+	var timerCount = 0;
+	var timerID2 = null;
+	var timerRunning2 = false;
+	var timerCount2 = 0;
+	var timerID3 = null;
+	var timerRunning3 = false;
+	var timerCount3 = 0;
+	var code = "";
+	var name = "";
+	var count = 0;
+	function playNow() {
+		name = unescape(name);
+		if (count > 1) {
+			$.ajax({
+				url: 'php/isHost.php',
+				data: { code : code,
+						name : name
+					  },
+				success: function (s) {
+				
+					if (s == "true") {
+						$.ajax({
+							url: 'php/playNow.php',
+							data: { code : code,
+									screen : "menu.html"
+								  },
+							success: function (s) {
+								if (s != "") {
+									location.href = 'menu.html';
+								}
+							}
+						});
+					}
+					else {
+						$('#msg').val("Alleen de host kan starten");
+					}
+				}
+			});
+		}
+	}
+	function switchNow() {
+		// change screen
+		$.ajax({
+			url: 'php/switchNow.php',
+			data: { code : code,
+					name : name
+				  },
+			success: function (s) {
+				if (s != "") {
+					location.href = s;
+				}
+			}
+		});
+	}
+	function startClock3(fie,intv) {
+		stopClock3();
+		timerCount3 = 0;
+		timerId3 = setInterval(fie, intv);
+		timerRunning3 = true;
+	}
+	function stopClock3() {
+		if (timerRunning3) {
+			clearInterval(timerID3);
+			timerRunning3 = false;
+		}
+	}
+	function showPlayers() {
+		// get last chats
+		$.ajax({
+		url: 'php/showLogin.php',
+		data: {code : code },
+		success: function (s) {
+			pos = s.indexOf("$;$");
+			count = 0;
+			players = document.getElementsByName('player');
+			while (pos > -1) {
+				players[count].value = s.substr(0,pos);
+				count++;
+				s = s.substr(pos+3);
+				pos = s.indexOf("$;$");
+			}
+			if (count > 1) {
+				$('#letsgo').attr('class','button');
+			}
+		}
+		});
+	}
+	
+	function startClock2(fie,intv) {
+		stopClock2();
+		timerCount2 = 0;
+		timerId2 = setInterval(fie, intv);
+		timerRunning2 = true;
+	}
+	function stopClock2() {
+		if (timerRunning2) {
+			clearInterval(timerID2);
+			timerRunning2 = false;
+		}
+	}
+	function getChat() {
+		// get last chats
+		$.ajax({
+		url: 'php/getChat.php',
+		data: {code : code },
+		success: function (s) {
+			$('#chatIn').val(s);
+		}
+		});
+	}
+	function setChat() {
+		// send chat input
+		$.ajax({
+		url: 'php/setChat.php',
+		data: {code : code,
+			   name : name,
+			   msg  : $('#chat').val()
+		},
+		success: function (s) {
+			$('#chatIn').val(s);	// show chats
+			$('#chat').val('');		// empty input field
+		}
+		});
+	}
+	function startClock(fie,intv) {
+		stopClock();
+		timerCount = 0;
+		timerId = setInterval(fie, intv);
+		timerRunning = true;
+	}
+	function stopClock() {
+		if (timerRunning) {
+			clearInterval(timerID);
+			timerRunning = false;
+		}
+	}
+
+	$(document).ready(function(){
+		prm = window.location.search; 
+		pos = prm.indexOf("code="); 
+		code = "";
+		if (pos > -1) {
+			code = prm.substr(pos+5,5); 
+		}
+		$('#code').val(code);
+		pos = prm.indexOf("name=");
+		name = "";
+		if (pos > -1) {
+			name = prm.substr(pos+5);
+		}
+		startClock(switchNow, 1000); // refresh players loggedin
+		startClock(showPlayers, 1000); // refresh players loggedin
+		startClock2(getChat, 1000);  // refresh chats every second
+	});
+	</script>
+	<style>
+		.msg {
+			  border-top-style: hidden;
+			  border-right-style: hidden;
+			  border-left-style: hidden;
+			  border-bottom-style: hidden;
+			  background-color: #eee;
+			  font-size:20; color:#FF0000;
+			  font-family:"Segoe script";
+		
+		}
+		.button { 
+			  border-top-style: double;
+			  background-color: #eee;
+			  font-size:20; color:#FF0000;
+			  font-family:"Segoe script";
+		} 
+		.buttongrey { 
+			  border-top-style: double;
+			  background-color: #eee;
+			  font-size:20; color:#202020;
+			  font-family:"Segoe script";
+		} 
+		.cgrey {font-family:"Segoe script"; font-size:30; color:#202020;}
+	    .cred {font-family:"Segoe script"; font-size:30; color:#FF0080;}
+	    .cblue {font-family:"Segoe script"; font-size:30; color:#8000FF;}
+		*:focus {outline: none;}
+	</style>
+</head>
+<body>
+	<div style='position:relative; margin-left:20%'>
+		<img src='uitdaging.png' style='width:30%; height:20%' ><br>
+	</div>
+	<div style='float:left; position:relative; margin-left:20%'>
+	<input type='text' id='code' class='cred'><br>
+	<input type='text' name='player' class='cred'><br>
+	<input type='text' name='player' class='cblue'><br>
+	<input type='text' name='player' class='cred'><br>
+	<input type='text' name='player' class='cblue'><br>
+	<input type='text' name='player' class='cred'><br>
+	<input type='button' id = 'letsgo' value='Daar gaan we dan' class='buttongrey' onClick='playNow()'><br>
+	<input type='text' class='msg' readonly id='msg' class='cred' size='60'><br>
+	<textarea id='chatIn' rows='4' cols='70' style='background-color:#FF8080; ' > </textarea><br>
+	<input type='text' id='chat' class='cred' size='50' ><input type='button' value='chat' onclick='setChat()' class='cred'><br>
+	</div>
+	</body>
+</html>

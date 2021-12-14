@@ -1,0 +1,78 @@
+<html>
+<head>
+	<title>Uitdaging - familie spellen</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type='text/javascript'>
+	function newJoinGame() {
+		
+		if ($('#code').val() == "") {   // new game
+			if ($('#name').val() =="" ) {
+				$('#msg').val("naam invullen");
+			}
+			else {			
+				$.ajax({
+					url: 'php/newGame.php',
+					data: {name : $('#name').val() },
+					success: function (s) {
+						$('#code').val(s);
+						location.href='spelers.html?code='+s+'&name='+$('#name').val();
+					}
+				});
+				
+			}
+		}
+		else {
+			if ($('#name').val() == "" ) {
+				$('#msg').val("naam invullen");
+			}
+			else {			
+				// get last chats
+				$.ajax({
+					url: 'php/joinGame.php',
+					data: { code: $('#code').val(),
+							name: $('#name').val() },
+					success: function (s) {
+						if (s != "ok") {
+							$('#msg').val(s);
+						}
+						else {
+							location.href='spelers.html?code='+$('#code').val()+'&name='+$('#name').val();
+						}
+					}
+				});
+				
+			}
+		}
+	}
+	$(document).ready(function(){
+	});
+	</script>
+	<style>
+		.msg {
+			  border-top-style: hidden;
+			  border-right-style: hidden;
+			  border-left-style: hidden;
+			  border-bottom-style: hidden;
+			  background-color: #eee;
+			  font-size:30; color:#FF0000;
+		}
+	
+	    .cred {font-family:"Segoe script"; font-size:30; color:#FF0080;}
+	    .cblue {font-family:"Segoe script"; font-size:30; color:#8000FF;}
+		*:focus {outline: none;}
+	</style>
+
+</head>
+<body>
+	<div style='position:relative; margin-left:20%'>
+		<img src='uitdaging.png' style='width:60%; height:40%' ><br>
+	</div>
+	<div style='float:left; position:relative; margin-left:20%'>
+		<span class='cred'>Start een spel of doe mee met een spel</span><br>
+		<span class='cred'>code&nbsp;&nbsp;<span><input type='text' value='' class='cblue' id='code'><span class='cred'> (leeg voor nieuw spel)</span><br>
+		<span class='cred'>naam<span><input type='text' value='' class='cblue' id='name'><br>
+		<input type='button' value='Nieuw spel of meedoen' class='cblue' onclick='newJoinGame()'><br><br>
+		<input type='text' class='msg' readonly id='msg' class='cred' size='60'><br>
+	</div>
+</body>
+</html>
