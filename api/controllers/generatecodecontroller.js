@@ -4,18 +4,21 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 module.exports = {
 
-  friendlyName: 'gen Code',
+  friendlyName: 'genCode',
 
   description: 'Generate game code',
 
-  inputs: {},
-  exits: {},
 
-  fn: async function(inputs,exits){
-
+  fn: async function(){
+    result = [];
+    for(i=0; i<6; i++){
+      result[i] = chars[Math.floor(Math.random()*chars.length)];
+    }
+    return result.join('');
   }
 
 };
