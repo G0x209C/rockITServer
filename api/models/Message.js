@@ -1,8 +1,8 @@
 module.exports = {
 
   attributes:{
-    playerId: {required:true, type:'string'},
+    utterer: {model:'player'},
     msg: {type:'string', required:true}
   }
 
-}
+};
