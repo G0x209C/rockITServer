@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-      - "49601:8080"
+      - "8083:8080"
     links:
       - "mongo:database"
     depends_on:
@@ -12,6 +12,8 @@ services:
   mongo:
     image: mongo
     restart: always
+    ports:
+      - "8084:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: UitDaging
@@ -24,4 +26,8 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: UitDaging
-      ME_CONFIG_MONGODB_URL: mongodb://root:UitDaging@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:UitDaging@mongo:8084/
+
+networks:
+  servercore:
+    driver: bridge
