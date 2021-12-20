@@ -22,6 +22,7 @@ module.exports.routes = {
   '/': { view: 'pages/homepage' },
   // 'GET /api/chatMessage': { action: ''},
   'GET /api/gencode': { action: 'generatecodecontroller' },
+  'GET /api/newgame': { action:'game/newgame' }
 
 
   /***************************************************************************
