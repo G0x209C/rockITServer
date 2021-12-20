@@ -72,7 +72,7 @@ module.exports = {
       ****************************************************************************/
       // ssl: { rejectUnauthorized: true },
       adapter: 'sails-mongo',
-      url: 'mysql://root:UitDaging@mongo:27017/Uitdaging'
+      url: 'mongodb://root:UitDaging@mongo:8084/Uitdaging'
 
     },
 
