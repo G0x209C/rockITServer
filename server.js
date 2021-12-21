@@ -17,6 +17,27 @@ const GameClient = require('./app/client');
 
 const history =require('connect-history-api-fallback');
 
+// implement session management
+const session = require('express-session');
+const MongoStore =require('connect-mongo');
+
+const sessionMiddleware=session({
+    secret: 'xsasdjwkjdksjdkj',
+    store: MongoStore.create({
+        mongoUrl: "mongodb://127.0.0.1:27017/rockitserver?directConnection=true&serverSelectionTimeoutMS=2000",
+    }),
+    cookie:{ maxAge: 60000}
+});
+
+app.use(sessionMiddleware);
+
+io.use((socket,next)=>
+{
+    sessionMiddleware(socket.request, {}, next);
+});
+
+
+
 // handlers
 const PlayerHandler = require('./SocketHandlers/PlayerHandler');
 const ChatHandler = require('./SocketHandlers/ChatHandler');
@@ -33,30 +54,12 @@ app.use(history({
 // reassign the static directory: @important this seems to help with Vue-router
 app.use(express.static(path.join(__dirname, './public/')));
 
-class Main
-{
-
-    static Games = [];
-    static GameRooms = []; // TODO: Figure out why you would need two arrays.. :D
-    static clients = [];
-    static clients_uuid = [];
 
 
-
-    // starts server. using port it is possible to run multiple servers on different ports, with shared Game Rooms (static indexes)
-    // allows for running multiple server instances to use better thread load balancing: TODO: (Optionally) implement load balancer
-    start(port)
-    {
-        http.listen(port, ()=>
-        {
-            console.log(`Listening on port: ${port}`);
-        });
-    }
-
-}
 
 // make instance of server and run it :)
-const ServerInstance = new Main();
+const Main = require('./app/Main');
+const ServerInstance = new Main(http);
 
 io.on('connection',socket=>
 {
@@ -81,9 +84,9 @@ io.on('connection',socket=>
 
 
     // add client object to socket FIXME: add way to reassign the same object to new socket connection from same client (uuid): checking for existing clients and existing connection.
-    socket.GameClient = new GameClient(io,socket);
+    socket.GameClient = new GameClient();
     socket.emit('initClient', {
-        client: socket.GameClient.returnDatamodel() //send over client info
+        client: socket.GameClient.returnData() //send over client info
     });
 
     // call handlers passing in the instance of io;
@@ -116,6 +119,9 @@ io.on('connection',socket=>
         // save gameclient to clientbackup and store UUID
         Main.clients.push(socket.GameClient);
         Main.clients_uuid.push(socket.GameClient.uuid);
+
+        socket.rooms.forEach(m=>{socket.leave(m)}); // TODO: Check if client is automatically removed from room on disconnect.
+        // TODO: user reconnect to room on reconnect with proper sessionID
         console.log(`Socket disconnected: ${socket.id} with username: ${socket.client.name}`);
     });
 });

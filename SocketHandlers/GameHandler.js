@@ -15,7 +15,7 @@ module.exports = (io,socket)=>
         console.log(data);
         try{
             socket.join(data.room);
-            socket.GameClient.setRoom(data.room);
+            socket.GameClient.room = data.room;
             socket.emit('gameJoinSuccess',{
                 GameClient: socket.GameClient, //TODO: add player info and stuff.
             });

@@ -5,6 +5,10 @@ class Game
     clients = [];
     clients_uuid = [];
 
+    constructor()
+    {
+
+    }
 
     registerUser(socket, uuid)
     {
@@ -16,10 +20,6 @@ class Game
         }
     }
 
-    constructor()
-    {
-
-    }
 
 
 }

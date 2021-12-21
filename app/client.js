@@ -10,26 +10,13 @@ class Client
     room = "AAAAA"; // this will come in very handy, trust me :)
     score = 0;
 
-    constructor(io, socket) {
+    constructor() {
         //  TODO: generate uuid and send to client;
         //
-        this.socket=socket;
-    }
-
-    setRoom(room)
-    {
-        this.room = room;
-        // TODO: add aditional checks before adding user to room
-        //this.socket.join(room);
     }
 
 
-    sendMessage(msg)
-    {
-
-    }
-
-    returnDatamodel()
+    returnData()
     {
         return {
             uuid: this.uuid,
