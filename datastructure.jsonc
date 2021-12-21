@@ -1,0 +1,5 @@
+{
+    "id":28918398, /* player_ID */
+    "success":true, /* | false */,
+    "players": {} /* object list of other player-names */
+}
