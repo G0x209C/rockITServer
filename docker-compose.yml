@@ -1,22 +1,30 @@
 version: "3.9"
+networks:
+  sailsapp:
+    driver: bridge
+
 services:
   web:
     build: .
     ports:
-      - "8083:8080"
-    links:
-      - "mongo:database"
+      - "8083:1337"
+        # links:
+      #  - "mongo:database"
     depends_on:
       - "mongo"
+    networks:
+      - sailsapp
 
   mongo:
     image: mongo
     restart: always
     ports:
-      - "8084:27017"
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: UitDaging
+    networks:
+      - sailsapp
 
   mongo-express:
     image: mongo-express
@@ -26,8 +34,6 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: UitDaging
-      ME_CONFIG_MONGODB_URL: mongodb://root:UitDaging@mongo:8084/
-
-networks:
-  servercore:
-    driver: bridge
+      ME_CONFIG_MONGODB_URL: mongodb://root:UitDaging@mongo:27017/
+    networks:
+      - sailsapp

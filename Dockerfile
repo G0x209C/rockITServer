@@ -13,5 +13,5 @@ RUN npm install
 # copy app over to dockercontainer
 COPY . .
 
-EXPOSE 8080
+EXPOSE 1337
 CMD [ "node", "app.js" ]
