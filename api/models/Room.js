@@ -9,6 +9,11 @@ module.exports = {
       players:{
         collection:'player',
         via:'room'
+      },
+
+      messages:{
+        collection: 'message',
+        via:'room'
       }
     }
 
