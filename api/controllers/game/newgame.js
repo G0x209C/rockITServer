@@ -1,3 +1,4 @@
+const { request } = require('sails');
 
 module.exports = {
 
@@ -21,7 +22,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs, exits, env) {
 
     let users;
 
@@ -33,6 +34,7 @@ module.exports = {
 
         let player = await Player.create(
           {
+            sessionId:env.req.session.sid,
             name:inputs.name,
             room: await room.id
           });
@@ -42,7 +44,7 @@ module.exports = {
         return 'Room not found';
       }
 
-      users = await Room.find({roomId:inputs.room}).populate('players');
+      users = await Room.findOne({roomId:inputs.room}).populate('players');
     }else
     {
       // generate a room code
@@ -54,17 +56,18 @@ module.exports = {
         roomId: code,
       }).fetch();
       // create new player in database
+      console.log(env.req.session.sid);
       let player = await Player.create({
         name:inputs.name,
         room: await room.id
       }).fetch();
-      users = await Room.find({roomId:code}).populate('players');
+      users = await Room.findOne({roomId:code}).populate('players');
     }
 
 
 
     // All done.
-    return users;
+    return env.res.json(users);
 
   }
 

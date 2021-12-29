@@ -17,7 +17,7 @@ module.exports = {
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs,exits,env) {
 
     // get messages associated with player's room.
     let room = await Room.find({roomId:inputs.roomId}).populate('messages');
