@@ -19,6 +19,12 @@
     </header>
 
     <main>
+        <div id="msg"></div>
+        <form action="" id="startform">
+            <input type="text" id="name" placeholder="naam">
+            <input type="text" id="roomcode" placeholder="spelcode">
+            <input type="submit" placeholder="Start/join">
+        </form>
 
     </main>
 
@@ -26,5 +32,33 @@
     </footer>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="./js/jquery.js"></script>
+    <script>
+        $('#startform').submit((e)=>{
+          e.preventDefault();
+          let name = $('#name').val();
+          let code = $('#roomcode').val();
+
+          if(code==""){
+            code = null;
+          }
+          $.ajax({
+            url:'http://localhost:1337/api/newgame',
+            dataType: 'json',
+            processData: true,
+            data: {
+              name:name,
+              room:code
+            },
+            success: (data, textStatus, xhr)=>{
+              console.log(JSON.parse(data));
+            },
+            error: (xhr, textstatus, error)=>{
+              console.log(error);
+              $('#msg').innerHTML = `An error has occured: ${error}`
+            },
+          });
+        });
+    </script>
 </body>
 </html>
