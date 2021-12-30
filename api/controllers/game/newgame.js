@@ -1,4 +1,4 @@
-const { request } = require('sails');
+const {v4} = require('uuid');
 
 module.exports = {
 
@@ -24,7 +24,7 @@ module.exports = {
 
   fn: async function (inputs, exits, env) {
 
-    let users;
+    let player;
 
     if(inputs.room){
       if(await Room.count({roomId:inputs.room})>0){
@@ -32,11 +32,11 @@ module.exports = {
 
         // create player joined to room.
 
-        let player = await Player.create(
+        player = await Player.create(
           {
-            sessionId:env.req.session.sid,
+            secret:v4(),
             name:inputs.name,
-            room: await room.id
+            room: room.id
           });
       }
       else
@@ -57,17 +57,17 @@ module.exports = {
       }).fetch();
       // create new player in database
       console.log(env.req.session.sid);
-      let player = await Player.create({
+      player = await Player.create({
+        secret:v4(),
         name:inputs.name,
-        room: await room.id
+        room: room.id
       }).fetch();
-      users = await Room.findOne({roomId:code}).populate('players');
     }
 
 
 
     // All done.
-    return env.res.json(users);
+    return env.res.json(player);
 
   }
 
