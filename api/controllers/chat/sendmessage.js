@@ -8,7 +8,7 @@ module.exports = {
 
 
   inputs: {
-      msg:{type:'string', required:true}
+    msg:{type:'string', required:true}
   },
 
 
