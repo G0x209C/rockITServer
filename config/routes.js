@@ -21,8 +21,21 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
   // 'GET /api/chatMessage': { action: ''},
-  'GET /api/newgame': { action:'game/newgame' }
+  'GET /api/newgame': { action:'game/newgame' },
+  'GET /test': { action:'chat/sockets/subscribetoroom' },
 
+  // TODO: bring order to API routes.
+
+  /*  /============
+     |  Game routes
+     \=============
+   */
+
+
+  /*  /============
+     |  Chat routes
+     \=============
+   */
 
   /***************************************************************************
   *                                                                          *
