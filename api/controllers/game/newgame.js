@@ -25,7 +25,7 @@ module.exports = {
   fn: async function (inputs, exits, env) {
 
     let player;
-
+    const secret = v4();
     if(inputs.room){
       if(await Room.count({roomId:inputs.room})>0){
         let room = await Room.findOne({roomId:inputs.room});
@@ -34,17 +34,16 @@ module.exports = {
 
         player = await Player.create(
           {
-            secret:v4(),
+            secret:secret,
             name:inputs.name,
             room: room.id
-          });
+          }).fetch();
       }
       else
       {
         return 'Room not found';
       }
 
-      users = await Room.findOne({roomId:inputs.room}).populate('players');
     }else
     {
       // generate a room code
@@ -56,18 +55,19 @@ module.exports = {
         roomId: code,
       }).fetch();
       // create new player in database
-      console.log(env.req.session.sid);
+
       player = await Player.create({
-        secret:v4(),
+        secret:secret,
         name:inputs.name,
         room: room.id
       }).fetch();
     }
 
+    player = JSON.stringify(await Player.findOne({secret:secret}).populate('room'));
 
 
     // All done.
-    return env.res.json(player);
+    return env.res.ok(player);
 
   }
 
