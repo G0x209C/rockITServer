@@ -22,7 +22,7 @@ module.exports.routes = {
   '/': { view: 'pages/homepage' },
   // 'GET /api/chatMessage': { action: ''},
   'GET /api/newgame': { action:'game/newgame' },
-  'GET /test': { action:'chat/sockets/subscribetoroom' },
+  'GET /test_2': { action:'usersconnected' },
 
   // TODO: bring order to API routes.
 
@@ -36,6 +36,9 @@ module.exports.routes = {
      |  Chat routes
      \=============
    */
+
+  'POST /test': { action:'chat/sockets/subscribetoroom' },
+  'POST /chat/sendmessage': { action: 'chat/sendmessage'},
 
   /***************************************************************************
   *                                                                          *
