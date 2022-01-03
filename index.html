@@ -9,6 +9,7 @@
 
 </head>
 <body class="bg-black">
+    <div id="msg"></div>
     <header class="d-flex justify-content-center">
         <div style="margin-left:auto;margin-right:auto;">
             <div class="container-fluid">
@@ -22,7 +23,7 @@
         <form action="" id="startform">
             <input type="text" class="text-black" id="name" placeholder="naam">
             <input type="text" id="roomcode" placeholder="spelcode">
-            <input type="submit" placeholder="Start/join">
+            <input type="submit" value="Start/join">
         </form>
 
     </main>
@@ -46,7 +47,7 @@
 
           // check if user input is empty, set to null if empty string.
           if(code==""){
-            code = null;
+            code = undefined;
           }
 
           // do ajax request to API.
@@ -58,8 +59,11 @@
               name:name,
               room:code
             },
-            success: (data, textStatus, xhr)=>{
-              console.log(JSON.parse(data));
+            success: async (data, textStatus, xhr)=>{
+              console.log(data);
+              await localStorage.setItem("secret",data.secret);
+              window.location = '/menu.html';
+
             },
             error: (xhr, textstatus, error)=>{
               console.log(error);
