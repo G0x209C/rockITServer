@@ -26,16 +26,19 @@ module.exports = {
 
     let player;
     const secret = v4();
+    let score;
     if(inputs.room){
       if(await Room.count({roomId:inputs.room})>0){
         let room = await Room.findOne({roomId:inputs.room});
 
         // create player joined to room.
+        score = await Score.create({}).fetch();
 
         player = await Player.create(
           {
             secret:secret,
             name:inputs.name,
+            score: score.id,
             room: room.id
           }).fetch();
       }
@@ -56,19 +59,23 @@ module.exports = {
       }).fetch();
       // create new player in database
 
+      score = await Score.create({}).fetch();
+
       player = await Player.create({
         secret:secret,
         name:inputs.name,
+        score: score.id,
         room: room.id
       }).fetch();
     }
 
-    player = JSON.stringify(await Player.findOne({secret:secret}).populate('room'));
+    player = await Player.findOne({secret:secret}).populate('room').populate('score');
 
 
     // All done.
     return env.res.ok(player);
 
+    //TODO: NEED TO AVOID SENDING CLIENT THE SECRET UUID
   }
 
 
