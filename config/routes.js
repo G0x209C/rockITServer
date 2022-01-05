@@ -31,6 +31,7 @@ module.exports.routes = {
      \=============
    */
 
+  'GET /api/getscore': { action:'game/getscore' },
 
   /*  /============
      |  Chat routes
