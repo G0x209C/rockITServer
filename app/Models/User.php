@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function score()
+    {
+        return $this->hasOne('App\Models\Game\Score');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Chat\Message');
+    }
 }
