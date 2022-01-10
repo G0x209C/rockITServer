@@ -10,7 +10,7 @@ module.exports = {
 
 
   inputs: {
-      secret:{type:'string', required:true}
+    secret:{type:'string', required:true}
   },
 
 
@@ -36,9 +36,14 @@ module.exports = {
       *   What do we need to do?
       *   First off: populate room.
       **/
-      let roomPlayers = await Room.findOne({roomId: player.room.roomId}).populateAll()
+      await Room.findOne({roomId: player.room.roomId}).populateAll()
         .then((room)=>{
-          let players = Player.find({room:room.id}).populate('score').then((players)=>{return players;});
+          let players = Player.find({room:room.id}).populate('score').then((players)=>{
+            for(let i=0; i<players.length; i++){
+              players[i] = _.omit(players[i], 'secret');
+            }
+            return players;
+          });
           return [room, players];
         })
         .spread((room, players)=>{
@@ -48,7 +53,6 @@ module.exports = {
 
 
       return env.res.ok(result);
-
     }
 
   }
