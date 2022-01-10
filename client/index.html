@@ -13,7 +13,7 @@
     <header class="d-flex justify-content-center">
         <div style="margin-left:auto;margin-right:auto;">
             <div class="container-fluid">
-                <img src="./img/uitdaging.png" style="height:300px;" alt="">
+                <img src="img/uitdaging.png" style="height:300px;" alt="">
             </div>
         </div>
 
@@ -32,8 +32,8 @@
     </footer>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="./js/jquery.js"></script>
-    <script src="./js/sails.io.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/sails.io.js"></script>
     <script>
         io.sails.url = "http://localhost:1337";
     </script>
@@ -59,9 +59,9 @@
               name:name,
               room:code
             },
-            success: async (data, textStatus, xhr)=>{
+            success: (data, textStatus, xhr)=>{
               console.log(data);
-              await localStorage.setItem("secret",data.secret);
+              localStorage.setItem("secret",data.secret);
               window.location = '/menu.html';
 
             },

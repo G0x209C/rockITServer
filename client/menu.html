@@ -12,7 +12,7 @@
 <body>
 <div style="display:flex; margin-top:20px;">
     <div style="display:block;flex:1;">
-        <img src="./img/uitdaging.png" style="height:100%;width:90%;" alt="">
+        <img src="img/uitdaging.png" style="height:100%;width:90%;" alt="">
     </div>
     <div style="display:block;flex:2;">
         <div class="list-group">
@@ -61,8 +61,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-<script src="./js/jquery.js"></script>
-<script src="./js/sails.io.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/sails.io.js"></script>
 <script>
   io.sails.url = 'http://localhost:1337';
 </script>
@@ -76,6 +76,8 @@
       window.location = '/index.html';
     }
     //TODO: make sails.get request to api/getMessages;
+
+    io.socket.get('/chat/getmessages', )
 
     //TODO: add method for adding new messages on socket update. This should use fallback XHTMLrequests.
   });
