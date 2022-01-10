@@ -74,8 +74,6 @@ module.exports = {
 
     // All done.
     return env.res.ok(player);
-
-    //TODO: NEED TO AVOID SENDING CLIENT THE SECRET UUID
   }
 
 
