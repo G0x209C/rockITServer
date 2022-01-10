@@ -8,7 +8,7 @@ module.exports = {
 
 
   inputs: {
-    roomId: {type:'string', required:true}
+    secret: {type:'string', required:true}
   },
 
 
@@ -20,10 +20,20 @@ module.exports = {
   fn: async function (inputs,exits,env) {
 
     // get messages associated with player's room.
-    let room = await Room.find({roomId:inputs.roomId}).populate('messages');
+    let roomId = await Player.findOne({secret:inputs.secret}).then((player)=>{
+      return player.room.roomId;
+    }).catch((err)=>{
+      console.error(`getmessages: Couldn't find player with UUID ${inputs.secret}`);
+      throw err;
+    });
+    let room = await Room.findOne({roomId:inputs.roomId}).then((room)=>{
+      let message = Message.find({room:inputs.roomId}).populate('utterer');
+    }).catch((err)=>{
+      throw err;
+    });
 
     // All done.
-    return room.messages;
+    return env.res.ok(room.messages);
 
   }
 
