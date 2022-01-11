@@ -27,7 +27,7 @@ module.exports = {
     } else { // here we need to create new room and make the new player host.
       let code = await sails.helpers.genCode(); // generate a new roomcode
       console.log(code);
-      while (Room.findOne({roomId: code}) > 0) {
+      while (await Room.findOne({roomId: code}) > 0) {
         code = await sails.helpers.genCode(); // generate code for each time the code has been found to already exist in database
       }
       let oRoom = await Room.create({
