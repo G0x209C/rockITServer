@@ -36,7 +36,7 @@ module.exports = {
         throw err;
       });
       // create the player with the association
-      player = Player.create({
+      player = await Player.create({
         secret: secret,
         name: name,
         isHost: true, // set isHost to true for freshly created owner of the new room
