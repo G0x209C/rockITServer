@@ -10,7 +10,7 @@ module.exports = {
 
 
   inputs: {
-    secret:{type:'string', required:true}
+    secret:{type:'string', required:true} // TODO: Change to make use of this.req.cookies;
   },
 
 
@@ -37,8 +37,8 @@ module.exports = {
       *   First off: populate room.
       **/
       await Room.findOne({roomId: player.room.roomId}).populateAll()
-        .then((room)=>{
-          let players = Player.find({room:room.id}).populate('score').then((players)=>{
+        .then(async (room)=>{
+          let players = await Player.find({room:room.id}).then((players)=>{
             for(let i=0; i<players.length; i++){
               players[i] = _.omit(players[i], 'secret');
             }
