@@ -47,6 +47,19 @@ module.exports = {
 
     }
     return player; // return the created player
+  },
+
+  isHost: async ({id,secret})=>{ // support both ID and secret identifier.
+    let player;
+    if(id){
+      player = await Player.findOne({id:id}).catch((err)=>{throw err;});
+    }else if(secret){
+      player = await Player.findOne({secret:secret}).catch((err)=>{throw err;});
+    }else{
+      return Error('Need either the playerId or playerSecret');
+    }
+
+    return !!player.isHost; // return boolean if user is host or not.
   }
 
 };
