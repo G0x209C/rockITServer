@@ -51,26 +51,39 @@
             code = undefined;
           }
 
-          // do ajax request to API.
-          $.ajax({
-            url:'http://localhost:1337/api/newgame',
-            dataType: 'json',
-            processData: true,
-            data: {
-              name:name,
-              room:code
-            },
-            success: (data, textStatus, xhr)=>{
-              console.log(data);
-              Cookies.set('secret',data.secret,{expires:0.5}); //save the identifier as a cookie
+          io.socket.post('/api/newgame', {name:name,roomId:code}, (resData,jwRes)=>{
+            if(jwRes.statusCode===200){
+              // got a good response: do something with data
+              Cookies.set('secret', resData.secret, {expires:0.5});
+              Cookies.set('name', resData.name);
               window.location = '/menu.html';
-
-            },
-            error: (xhr, textstatus, error)=>{
-              console.log(error);
-              $('#msg').innerHTML = `An error has occured: ${error}`
-            },
+            }else{
+              // display error.
+              $()
+            }
           });
+
+          // // do ajax request to API.
+          // $.ajax({
+          //   url:'http://localhost:1337/api/newplayer',
+          //   dataType: 'json',
+          //   processData: true,
+          //   data: {
+          //     name:name,
+          //     room:code
+          //   },
+          //   success: (data, textStatus, xhr)=>{
+          //     console.log(data);
+          //     Cookies.set('secret', data.secret,{expires:0.5}); //save the identifier as a cookie
+          //     Cookies.set('name', data.name);
+          //     window.location = '/menu.html';
+          //
+          //   },
+          //   error: (xhr, textstatus, error)=>{
+          //     console.log(error);
+          //     $('#msg').innerHTML = `An error has occured: ${error}`
+          //   },
+          // });
         });
     </script>
 </body>
