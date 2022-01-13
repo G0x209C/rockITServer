@@ -21,7 +21,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
   // 'GET /api/chatMessage': { action: ''},
-  'GET /api/newgame': { action:'game/newgame' },
+  'POST /api/newplayer': { action:'game/newplayer' },
   'GET /test_2': { action:'usersconnected' },
 
   // TODO: bring order to API routes.

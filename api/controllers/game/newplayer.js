@@ -22,11 +22,13 @@ module.exports = {
     let playerCreated;
     let error = false;
     if(inputs.room){
+      // create new player and try to join him to existing room.
       playerCreated = await Player.createNewPlayer(inputs.name,inputs.room).catch((err)=>{
         error = true;
         throw err;
       });
     }else{
+      // create new player without room: creates a new room and makes new player host.
       playerCreated = await Player.createNewPlayer(inputs.name).catch((err)=>{
         error = true;
         throw err;
