@@ -1,3 +1,4 @@
+const async = require('async');
 module.exports = {
 
 
@@ -8,32 +9,42 @@ module.exports = {
 
 
   inputs: {
-    secret: {type:'string', required:true}
+    secret: {type:'string',required:true}
   },
 
 
-  exits: {
-
-  },
+  exits: {},
 
 
-  fn: async function (inputs,exits,env) {
+  fn: async function (inputs, exits, env) {
 
+    if(!env.req.isSocket){
+      throw {badRequest: 'Connection is not a socket'};
+    }
     // get messages associated with player's room.
-    let roomId = await Player.findOne({secret:inputs.secret}).then((player)=>{
-      return player.room.roomId;
-    }).catch((err)=>{
+    let room = await Player.findOne({secret: inputs.secret}).populate('room').then((player) => {
+      return {id:player.room.id,roomId:player.room.roomId}; // get associated room from the requesting player;
+    }).catch((err) => {
       console.error(`getmessages: Couldn't find player with UUID ${inputs.secret}`);
       throw err;
     });
-    let room = await Room.findOne({roomId:inputs.roomId}).then((room)=>{
-      let message = Message.find({room:inputs.roomId}).populate('utterer');
-    }).catch((err)=>{
-      throw err;
-    });
+
+    // join socket to listen for new messages in room:
+    sails.socket.join(env.req,room.roomId);
+
+    let messages = await Message.find({room: room.id}).populate('utterer')
+      .then((messages) => { // FIXME: this probably won't work yet.
+        return async.forEach(messages, (message) => {
+          message.utterer.secret = undefined;
+        });
+      })
+      .catch((err) => {
+        throw err;
+      }); // get messages and whoever said the message. TODO: _.omit the secret;
+
 
     // All done.
-    return env.res.ok(room.messages);
+    return env.res.ok(messages);
 
   }
 
