@@ -20,10 +20,11 @@ module.exports = {
 
   fn: async function (inputs, exits, env) {
     let playerCreated;
+    let room = inputs.room.toUpperCase();
     let error = false;
     if(inputs.room){
       // create new player and try to join him to existing room.
-      playerCreated = await Player.createNewPlayer(inputs.name,inputs.room).catch((err)=>{
+      playerCreated = await Player.createNewPlayer(inputs.name,room).catch((err)=>{
         error = true;
         throw err;
       });
