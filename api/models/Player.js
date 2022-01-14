@@ -2,8 +2,8 @@ const {v4} = require('uuid');
 module.exports = {
 
   attributes: {
-    secret: {type: 'string', required: true},
-    name: {type: 'string', required: true},
+    secret: {type: 'string', unique:true, required: true},
+    name: {type: 'string', size:25, required: true},
     isHost: {type: 'boolean', defaultsTo: false},
     score: {type: 'number', defaultsTo: 0},
     room: {model: 'room'},
