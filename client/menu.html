@@ -12,7 +12,11 @@
 <body>
 <div style="display:flex; margin-top:20px;">
     <div style="display:block;flex:1;">
-        <img src="img/uitdaging.png" style="height:100%;width:90%;" alt="">
+        <img src="img/uitdaging.png" style="height:100%;width:90%;" alt=""><br>
+        <hr>
+        <div class="list-group" id="scoreboard">
+
+        </div>
     </div>
     <div style="display:block;flex:2;">
         <div class="list-group">
@@ -47,8 +51,8 @@
 
 <div class="d-flex justify-content-center" style="position:absolute;bottom:0;">
     <div class="row">
-        <div class="border border-dark col-sm-8" id="chatbox">
-            <div class="row" id="chatmessages"></div>
+        <div class="border border-dark col-sm-8 overflow-scroll" id="chatbox">
+            <div id="chatmessages"></div>
         </div>
 
         <form class="col-sm-4" id="chatinputbox" action="">
@@ -64,6 +68,7 @@
 <script src="js/cookies.js"></script>
 <script src="js/jquery.js"></script>
 <script src="js/sails.io.js"></script>
+<script src="js/messaging.js"></script>
 <script>
   io.sails.url = 'http://localhost:1337';
 </script>
@@ -77,7 +82,7 @@
       window.location = '/index.html';
     }
     //TODO: make sails.get request to api/getMessages;
-
+    bootstrap(io.socket);
     io.socket.get('/chat/getmessages', )
 
     //TODO: add method for adding new messages on socket update. This should use fallback XHTMLrequests.
@@ -87,9 +92,7 @@
 
     let msg = $('#chatinput').val();
     //TODO: do some ajax/socket stuff here.
-    io.socket.post('/chat/sendmessage',{secret:secret, msg:msg},(resData,jwr)=>{
-        console.log(resData);
-    });
+    sendmessage(io.socket, msg);
   });
 </script>
 </body>

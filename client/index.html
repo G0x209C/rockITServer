@@ -52,16 +52,12 @@
           let name = $('#name').val();
           let code = $('#roomcode').val();
 
-          // check if user input is empty, set to null if empty string.
-          if(code==""){
-            code = undefined;
-          }
-
-          io.socket.post('/api/newplayer', {name:name,roomId:code}, (resData,jwRes)=>{
+          io.socket.post('/api/newplayer', {name:name,code:code}, (resData,jwRes)=>{
             if(jwRes.statusCode===200){
               // got a good response: do something with data
               Cookies.set('secret', resData.secret, {expires:0.5});
-              Cookies.set('name', resData.name);
+              Cookies.set('room', resData.room.roomId, {expires:0.5});
+              Cookies.set('name', resData.name, {expires:0.5});
               window.location = '/menu.html';
             }else{
               // display error.
