@@ -9,7 +9,6 @@
 
 </head>
 <body class="bg-black">
-    <div id="msg"></div>
     <header class="d-flex justify-content-center">
         <div style="margin-left:auto;margin-right:auto;">
             <div class="container-fluid">
@@ -20,6 +19,13 @@
     </header>
     <hr />
     <main class="d-flex justify-content-center">
+        <div class="d-block mb-auto me-auto">
+            <div class="d-flex justify-content-center">
+                <div id="msg">
+
+                </div>
+            </div>
+        </div>
         <form action="" id="startform">
             <input type="text" class="text-black" id="name" placeholder="naam">
             <input type="text" id="roomcode" placeholder="spelcode">
@@ -59,7 +65,11 @@
               window.location = '/menu.html';
             }else{
               // display error.
-              $()
+              console.log(resData);
+              if(!$('#msg').hasClass('text-danger')) {
+                $('#msg').addClass('text-danger')
+              }
+              $('#msg').append(resData);
             }
           });
 
