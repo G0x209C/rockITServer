@@ -18,16 +18,16 @@
 
     </header>
     <hr />
-    <main class="d-flex justify-content-center">
-        <div class="d-block mb-auto me-auto">
-            <div class="d-flex justify-content-center">
-                <div id="msg">
+    <div class="d-block mb-auto me-auto">
+        <div class="d-flex justify-content-center">
+            <div id="msg">
 
-                </div>
             </div>
         </div>
+    </div>
+    <main class="d-flex justify-content-center">
         <form action="" id="startform">
-            <input type="text" class="text-black" id="name" placeholder="naam">
+            <input type="text" class="text-black" id="name" placeholder="naam" required="true">
             <input type="text" id="roomcode" placeholder="spelcode">
             <input type="submit" value="Start/join">
         </form>
@@ -57,7 +57,7 @@
             code = undefined;
           }
 
-          io.socket.post('/api/newgame', {name:name,roomId:code}, (resData,jwRes)=>{
+          io.socket.post('/api/newplayer', {name:name,roomId:code}, (resData,jwRes)=>{
             if(jwRes.statusCode===200){
               // got a good response: do something with data
               Cookies.set('secret', resData.secret, {expires:0.5});
@@ -66,34 +66,9 @@
             }else{
               // display error.
               console.log(resData);
-              if(!$('#msg').hasClass('text-danger')) {
-                $('#msg').addClass('text-danger')
-              }
-              $('#msg').append(resData);
+              $('#msg').append(`<div class="text-danger">${jwRes.error}</div>`);
             }
           });
-
-          // // do ajax request to API.
-          // $.ajax({
-          //   url:'http://localhost:1337/api/newplayer',
-          //   dataType: 'json',
-          //   processData: true,
-          //   data: {
-          //     name:name,
-          //     room:code
-          //   },
-          //   success: (data, textStatus, xhr)=>{
-          //     console.log(data);
-          //     Cookies.set('secret', data.secret,{expires:0.5}); //save the identifier as a cookie
-          //     Cookies.set('name', data.name);
-          //     window.location = '/menu.html';
-          //
-          //   },
-          //   error: (xhr, textstatus, error)=>{
-          //     console.log(error);
-          //     $('#msg').innerHTML = `An error has occured: ${error}`
-          //   },
-          // });
         });
     </script>
 </body>
