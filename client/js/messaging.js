@@ -1,4 +1,4 @@
-function bootstrap(socket) {
+function bootstrap_messaging(socket) {
   let exists = true;
   //check if user exists
   socket.post('/api/checkuserexists', {}, (resData, jwRes) => {
@@ -24,8 +24,8 @@ function bootstrap(socket) {
       for (let i = 0; i < resData.length; i++) {
         $('#chatmessages').append(`
         <div class="row">
-            <div class="col">${resData[i].name}</div>
-            <div class="col">${resData[i].msg}</div>
+            <div class="col-sm-4">${resData[i].name}</div>
+            <div class="col-sm-6">${resData[i].msg}</div>
         </div>`);
       }
 
@@ -40,8 +40,8 @@ function bootstrap(socket) {
     // append the new message to the messagebox.
     $('#chatmessages').append(`
         <div class="row">
-            <div class="col">${data.name}</div>
-            <div class="col">${data.msg}</div>
+            <div class="col-sm-4">${data.name}</div>
+            <div class="col-sm-6">${data.msg}</div>
         </div>`);
   });
 
@@ -50,17 +50,16 @@ function bootstrap(socket) {
 function sendmessage(socket, msg) {
   $('#chatmessages').append(`
         <div class="row">
-            <div class="col">${Cookies.get('name')}</div>
-            <div class="col">${msg}</div>
+            <div class="col-sm-4">${Cookies.get('name')}</div>
+            <div class="col-sm-6">${msg}</div>
         </div>`);
   socket.post('/chat/sendmessage', {msg: msg}, (resData, jwRes) => {
     if (jwRes.statusCode == 200) {
-      // add the message that was to be send.
 
     } else {
       console.log(`error in getting data..\n
       errorMsg: ${jwRes.error}`);
     }
   });
-
+$('#chatinput').val('');
 }

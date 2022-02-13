@@ -12,10 +12,11 @@
 <body>
 <div style="display:flex; margin-top:20px;">
     <div style="display:block;flex:1;">
-        <img src="img/uitdaging.png" style="height:100%;width:90%;" alt=""><br>
+        <img src="img/uitdaging.png" style="height:50%;width:90%;" alt=""><br>
         <hr>
+        <h4 class="text-black">Scoreboard</h4>
+        <hr/>
         <div class="list-group" id="scoreboard">
-
         </div>
     </div>
     <div style="display:block;flex:2;">
@@ -49,17 +50,23 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center" style="position:absolute;bottom:0;">
-    <div class="row">
-        <div class="border border-dark col-sm-8 overflow-scroll" id="chatbox">
-            <div id="chatmessages"></div>
-        </div>
+<div class="d-flex justify-content-evenly w-100" style="position:absolute;bottom:0;">
 
-        <form class="col-sm-4" id="chatinputbox" action="">
-            <input type="text" id="chatinput" placeholder="message">
-            <input type="submit" placeholder="">
-        </form>
+    <div class="border border-dark col-sm-6 h-75" id="chatbox">
+            <div id="chatmessages" class="overflow-scroll"></div>
     </div>
+
+    <form class="col-sm-8" id="chatinputbox" action="">
+        <div class="d-flex">
+            <div class="input-group">
+                <input class="form-control" id="chatinput" placeholder="message">
+            </div>
+            <div class="input-group">
+                <input type="submit" class="btn btn-outline-primary" value="verstuur">
+            </div>
+        </div>
+    </form>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -69,6 +76,7 @@
 <script src="js/jquery.js"></script>
 <script src="js/sails.io.js"></script>
 <script src="js/messaging.js"></script>
+<script src="js/scoreboard.js"></script>
 <script>
   io.sails.url = 'http://localhost:1337';
 </script>
@@ -78,12 +86,13 @@
   $(document).ready(() => {
     //TODO: check for userSecret in storage/cookies
     secret = Cookies.get('secret');
-    if(!secret){
+    if (!secret) {
       window.location = '/index.html';
     }
     //TODO: make sails.get request to api/getMessages;
-    bootstrap(io.socket);
-    io.socket.get('/chat/getmessages', )
+    bootstrap_messaging(io.socket);
+    bootstrap_scoreboard(io.socket);
+    io.socket.get('/chat/getmessages',);
 
     //TODO: add method for adding new messages on socket update. This should use fallback XHTMLrequests.
   });
