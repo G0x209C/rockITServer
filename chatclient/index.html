@@ -1,0 +1,55 @@
+<div>
+
+    <!-- make default chatbox here -->
+    <div style="display:flex;">
+        <div class="chatbox" style="flex:2" id="chatbox">
+
+        </div>
+        <div style="flex:1;">
+            <form action="" id="chatform">
+                <div style="display:block; height:6em;vertical-align: bottom;">
+                    <input type="text" id="chatinput">
+                    <input type="submit" value="Verstuur bericht">
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- used libraries: THESE NEED TO BE CHANGED TO POINT TOWARDS THE CORRECT PATH IN PRODUCTION -->
+    <script src="jquery.js"></script>
+    <script src="sails.io.js">
+      io.sails.url='http://localhost:1337';
+      io.sails.autoConnect = true;
+    </script>
+    <script src="cookies.js"></script>
+    <script src="chatclient.js"></script>
+    <script>
+
+      let secret = Cookies.get('secret');
+      if(secret){
+        io.socket.get('/chat/joinroom',Cookies.get())
+      }else{
+        // TODO: make errormessage visible.
+      }
+      $("#chatform").submit(e=>{
+        e.preventDefault();
+        let message = $('#chatinput').val();
+        if(message !== ("" || undefined)){
+          io.socket.post('/chat/sendmessage',{secret:secret,msg:message}).done(()=>{
+            $('#chatinput').val('');
+            
+          }).catch(err=>{throw err;});
+        }
+      });
+    </script>
+</div>
+
+<style>
+    .chatbox{
+        display:block;
+        border:1px solid black;
+        height:6em;
+        overflow-y:scroll;
+    }
+</style>
